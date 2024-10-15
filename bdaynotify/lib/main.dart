@@ -1,4 +1,6 @@
+import 'package:bdaynotify/screens/calendar.dart';
 import 'package:bdaynotify/screens/dashboard.dart';
+import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +18,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Dashboard(),
+      //home: Dashboard(),
+      routes: {
+        RoutesApp.HOME: (ctx) => Dashboard(),
+        RoutesApp.CALENDAR:  (ctx) => Calendar(), 
+      },
     );
   }
 }
