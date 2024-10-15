@@ -1,3 +1,5 @@
+import 'package:bdaynotify/components/buttons_bar.dart';
+import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -5,9 +7,21 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Color> _cores = [
+      Color(0xff5A6AF1),
+      Color(0x505A6AF1),
+      Colors.white,
+      Colors.white.withOpacity(0.5),
+    ];
     final pageWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('BdayNotify', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xFF5A6AF1),
+        centerTitle: true,
+      ),
       body: Container(
+        
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -142,11 +156,11 @@ class Dashboard extends StatelessWidget {
               const Spacer(),
               Container(
                 padding: const EdgeInsets.only(
-                  left: 80,
-                  right: 80,
+                  left: 40,
+                  right: 40,
                   top: 40
                 ),
-                height: 450,
+                height: 500,
                 decoration: const BoxDecoration(
                   gradient: RadialGradient(
                     colors: [
@@ -212,20 +226,8 @@ class Dashboard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)
                       ),
                     ),
-                    SizedBox(height: 25,),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: (){}, 
-                            child: const Icon(Icons.home),
-                            style: ButtonStyle(),
-                          ),
-                          
-                        ],
-                      ),
-                    )
+                    const SizedBox(height: 45,),
+                    ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3])
                   ],
                 ),
               )
