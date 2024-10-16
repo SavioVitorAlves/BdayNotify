@@ -1,5 +1,4 @@
 import 'package:bdaynotify/components/buttons_bar.dart';
-import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -13,7 +12,7 @@ class Dashboard extends StatelessWidget {
       Colors.white,
       Colors.white.withOpacity(0.5),
     ];
-    final pageWidth = MediaQuery.of(context).size.width;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('BdayNotify', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),

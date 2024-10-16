@@ -1,10 +1,27 @@
 import 'package:bdaynotify/components/buttons_bar.dart';
 import 'package:bdaynotify/components/card_month.dart';
+import 'package:bdaynotify/models/month_item.dart';
+import 'package:bdaynotify/models/months.dart';
+import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Calendar extends StatelessWidget {
+class Calendar extends StatefulWidget {
   const Calendar( {super.key});
-  
+
+  @override
+  State<Calendar> createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<MonthItem>(context, listen: false).loadMonths();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final List _transacoes = [
@@ -27,12 +44,21 @@ class Calendar extends StatelessWidget {
       Colors.white,
       Colors.white.withOpacity(0.5),
     ];
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 63, 79, 219),
         automaticallyImplyLeading: false,
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: (){
+              Navigator.of(context).pushNamed(RoutesApp.MONTH_FORM);
+            }, 
+            icon: const Icon(Icons.add)
+          )
+        ],
       ),
       body: Center(
         child: Container(
@@ -64,21 +90,21 @@ class Calendar extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20,),
-              SingleChildScrollView(
-                child: Container(
-                  height: 550,
-                  child: Expanded(
-                    child: ListView.builder(
-                      itemCount: _transacoes.length,
+              Consumer<MonthItem>(
+                builder:(ctx, months, child) {
+                  return Container(
+                    height: 550,
+                    child:  ListView.builder(
+                      itemCount: months.monthsCount,
                       itemBuilder: (ctx, i){
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: CardMonth(mes: _transacoes[i]),
-                        );
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CardMonth(month: months.meses[i]),
+                      );
                       }
                     ),
-                  ),
-                ),
+                  );
+                }
               ),
               SizedBox(height: 20,),
               ButtonsBar(_cores[1], _cores[0], _cores[3], _cores[2])
