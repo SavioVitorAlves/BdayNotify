@@ -1,10 +1,14 @@
+import 'package:bdaynotify/models/month_item.dart';
+import 'package:bdaynotify/models/months.dart';
 import 'package:flutter/material.dart';
 
+
 class CardMonth extends StatelessWidget {
-  const CardMonth({ required this.mes, super.key});
-  final String mes;
+  const CardMonth({ required this.month, super.key});
+  final Months month;
   @override
   Widget build(BuildContext context) {
+    
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -20,7 +24,7 @@ class CardMonth extends StatelessWidget {
           //width: 270,
           child:  Center(
             child: Text(
-              mes, 
+              month.name.toString(), 
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 30
