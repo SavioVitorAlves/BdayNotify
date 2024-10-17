@@ -99,7 +99,21 @@ class _CalendarState extends State<Calendar> {
                       itemBuilder: (ctx, i){
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: CardMonth(month: months.meses[i]),
+                        child: GestureDetector(
+                          child: CardMonth(month: months.meses[i]),
+                          onTap: (){
+                            final month = months.meses[i];
+                            print(month.runtimeType);  // Verifica o tipo em tempo de execução
+                            if (month is Months) {
+                              Navigator.of(context).pushNamed(
+                                RoutesApp.MONTH_DETAIL,
+                                arguments: month,
+                              );
+                            } else {
+                              print('O item não é do tipo Months');
+                            }
+                          },
+                        ),
                       );
                       }
                     ),
