@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         routes: {
           RoutesApp.HOME: (ctx) => Dashboard(),
           RoutesApp.CALENDAR:  (ctx) => Calendar(),
-          RoutesApp.MONTH_FORM: (ctx) => MonthForm(),
           RoutesApp.MONTH_DETAIL: (ctx) => MonthDetailScreem(), 
         },
       ),

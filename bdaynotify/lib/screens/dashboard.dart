@@ -34,26 +34,6 @@ class Dashboard extends StatelessWidget {
         child:  Center(
           child: Column(
             children: [
-              SizedBox(height: 5,),
-              const Column(
-                children: [
-                  Text(
-                    'BdayNotify',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    ),
-                  ),
-                  Text(
-                    'Mant Santa Fé',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14
-                    ),
-                  )
-                ],
-              ),
               SizedBox(height: 30,),
               Container(
                 padding: const EdgeInsets.only(
@@ -88,10 +68,11 @@ class Dashboard extends StatelessWidget {
                   right: 40
                 ),
                 child: Container(
+                  height: 70,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
+                        color: Colors.black.withOpacity(0.15),
                         spreadRadius: 0,
                         blurRadius: 15,
                         offset: const Offset(0, 10)
@@ -112,7 +93,7 @@ class Dashboard extends StatelessWidget {
                       children: [
                         Container(
                           width: 50,
-                          height: 50,
+                          height: 70,
                           alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color:  Color(0xFF5A6AF1),
@@ -130,6 +111,7 @@ class Dashboard extends StatelessWidget {
                         ),
                         SizedBox(width: 10,),
                         const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Nome da Pessoa', 
@@ -157,9 +139,9 @@ class Dashboard extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   left: 40,
                   right: 40,
-                  top: 40
+                  top: 60
                 ),
-                height: 500,
+                height: 600,
                 decoration: const BoxDecoration(
                   gradient: RadialGradient(
                     colors: [
@@ -225,8 +207,9 @@ class Dashboard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)
                       ),
                     ),
+                    const Spacer(),
+                    ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
                     const SizedBox(height: 45,),
-                    ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3])
                   ],
                 ),
               )

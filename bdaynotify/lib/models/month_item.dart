@@ -32,43 +32,57 @@ class MonthItem with ChangeNotifier{
     List<Months> itens = [];
 
     data.forEach((monthId, monthData){
+      List<People> peoplesList = [];
+
+      // Verifica se `peoples` é um objeto ou uma lista
+      if (monthData['peoples'] is Map<String, dynamic>) {
+        // Se for um objeto, percorre as chaves e cria a lista de People
+        (monthData['peoples'] as Map<String, dynamic>).forEach((key, value) {
+          peoplesList.add(
+            People(
+              id: value['id'], 
+              name: value['name'], 
+              date: DateTime.parse(value['date']),
+              isVerify: value['isVerify'],
+            )
+          );
+        });
+      } else if (monthData['peoples'] is List<dynamic>) {
+        // Se for uma lista, mapeia normalmente
+        peoplesList = (monthData['peoples'] as List<dynamic>).map((item) {
+          return People(
+            id: item['id'], 
+            name: item['name'], 
+            date: DateTime.parse(item['date']),
+            isVerify: item['isVerify'],
+          );
+        }).toList();
+      }
       itens.add(
         Months(
           id: monthId, 
           name: monthData['name'], 
-          peoples: (monthData['peoples'] != null && monthData['peoples'] is List<dynamic>)
-          ? (monthData['peoples'] as List<dynamic>).map((item){
-            return People(
-              id: item['id'], 
-              name: item['name'], 
-              date: DateTime.parse(item['date']),
-              isVerify: item['isVerify'],
-            );
-          }).toList()
-          : [],
-        ));
+          peoples: peoplesList,
+        )
+      );
+
     });
-    print('Loaded months: ${itens.map((m) => m.name).toList()}');
+    print('Loaded months: ${itens.map((m) => m.peoples).toList()}');
     _meses = itens.toList();
     notifyListeners();
   }
+  
 
-  Future<void> saveMonth(Map<String, Object> data){
+  Future<void> savePeople(Map<String, dynamic> data, String mesId) async{
 
-    final product = Months(
+    final pessoa = People(
       id: Random().nextDouble().toString(), 
       name: data['name'] as String, 
-      peoples: [
-        People(
-        id: Random().nextDouble().toString(),
-        name: 'Teste Pessoa',
-        date: DateTime.now(),  // Data de exemplo
-                // Verificado
-      ),
-      ],
+      date: data['date'] as DateTime,
+      //isVerify: false
     ); 
     
-    return addMonth(product);
+     await addPeople(pessoa, mesId);
     
   }
   
@@ -84,5 +98,29 @@ class MonthItem with ChangeNotifier{
       )
     );
     notifyListeners();
+  }
+  
+  Future<void> addPeople(People people, String mesId) async{
+    await http.post(
+      Uri.parse('${DbRoutes.MESES_BASE_URL}/$mesId/peoples.json'),
+      body: jsonEncode(
+        {
+          'id': people.id,
+          'name': people.name,
+          'date': people.date.toIso8601String(),
+          'isVerify': people.isVerify
+        } 
+      )
+    );
+
+    // Encontre o mês correspondente na lista local
+    final monthIndex = _meses.indexWhere((month) => month.id == mesId);
+    if (monthIndex >= 0) {
+      // Adiciona a nova pessoa à lista local
+      _meses[monthIndex].peoples.add(people);
+      notifyListeners(); // Notifica os ouvintes sobre a mudança
+    }
+    
+    //notifyListeners();
   }
 }

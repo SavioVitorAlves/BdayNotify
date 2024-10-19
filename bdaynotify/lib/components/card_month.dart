@@ -13,7 +13,7 @@ class CardMonth extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          width: 300,
+          width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
             color: Color(0x807F97EE),

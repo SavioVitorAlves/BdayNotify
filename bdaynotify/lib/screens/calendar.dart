@@ -44,27 +44,20 @@ class _CalendarState extends State<Calendar> {
       Colors.white,
       Colors.white.withOpacity(0.5),
     ];
-    
+   
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 63, 79, 219),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: (){
-              Navigator.of(context).pushNamed(RoutesApp.MONTH_FORM);
-            }, 
-            icon: const Icon(Icons.add)
-          )
-        ],
       ),
       body: Center(
         child: Container(
           padding: EdgeInsets.only(
-            left: 80,
-            right: 80
+            left: 40,
+            right: 40,
+            top: 40
           ),
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -80,20 +73,11 @@ class _CalendarState extends State<Calendar> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:  [
-              SizedBox(height: 5,),
-              const Text(
-                'Calendar',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-                ),
-              ),
-              SizedBox(height: 20,),
+              //SizedBox(height: 20,),
               Consumer<MonthItem>(
                 builder:(ctx, months, child) {
                   return Container(
-                    height: 550,
+                    height: 600,
                     child:  ListView.builder(
                       itemCount: months.monthsCount,
                       itemBuilder: (ctx, i){
@@ -120,8 +104,9 @@ class _CalendarState extends State<Calendar> {
                   );
                 }
               ),
-              SizedBox(height: 20,),
-              ButtonsBar(_cores[1], _cores[0], _cores[3], _cores[2])
+              const Spacer(),
+              ButtonsBar(_cores[1], _cores[0], _cores[3], _cores[2]),
+              const SizedBox(height: 45,),
             ],
           ),
         ),
