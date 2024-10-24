@@ -31,16 +31,17 @@ class People{
    
   }
 
-  Future<void> toggleVerify(String mesId, String index)async{
+  Future<void> toggleVerify(String mesId, String peopleId)async{
     _toggleVerify();
     
     try{
       print(mesId);
       print(id);
-      final response = await http.put(
-        Uri.parse('${DbRoutes.MESES_BASE_URL}/$mesId/peoples/$index.json'),
+      print(peopleId);
+      final response = await http.patch(
+        Uri.parse('${DbRoutes.MESES_BASE_URL}/$mesId/peoples/$peopleId.json'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(toJson()),
+        body: jsonEncode({'isVerify': isVerify}),
       );
       if (response.statusCode == 200) {
           print('Verificação atualizada com sucesso no banco de dados.');
@@ -51,6 +52,8 @@ class People{
       print('Erro durante a requisição PUT: $error');
     }
   }
+
+  
 
   
 

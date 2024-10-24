@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CardPeople extends StatelessWidget {
-  const CardPeople({required this.index, required this.mesId, required this.people, super.key});
+  const CardPeople({ required this.mesId, required this.people, super.key});
   final People people;
   final String mesId;
-  final int index;
+  
   @override
   Widget build(BuildContext context) {
-    final indece = index.toString();
+    
     //final pessoa = Provider.of<People>(context, listen: false);
     return Container(
       width: double.infinity,
@@ -82,7 +82,7 @@ class CardPeople extends StatelessWidget {
             IconButton(
               padding: const EdgeInsets.only(right: 5),
               onPressed: () async{
-                await people.toggleVerify(mesId, indece);
+                await people.toggleVerify(mesId, people.id);
                 (context as Element).markNeedsBuild(); 
               }, 
               icon: people.isVerify ? const Icon(Icons.check_circle, color: Colors.white,) : const Icon(Icons.check_circle_outline_outlined, color: Colors.white)

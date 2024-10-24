@@ -87,7 +87,12 @@ class _CalendarState extends State<Calendar> {
                           child: CardMonth(month: months.meses[i]),
                           onTap: (){
                             final month = months.meses[i];
-                            print(month.runtimeType);  // Verifica o tipo em tempo de execução
+                            print(month.runtimeType); // Verifica o tipo em tempo de execução
+                            if (month != null) {
+                              month.peoples.forEach((person) {
+                                print('ID: ${person.id}, Name: ${person.name}');
+                              });
+                            }
                             if (month is Months) {
                               Navigator.of(context).pushNamed(
                                 RoutesApp.MONTH_DETAIL,

@@ -1,4 +1,5 @@
 import 'package:bdaynotify/components/card_people.dart';
+import 'package:bdaynotify/components/form_people_config_modal.dart';
 import 'package:bdaynotify/models/month_item.dart';
 import 'package:bdaynotify/models/months.dart';
 import 'package:bdaynotify/screens/month_form.dart';
@@ -19,6 +20,24 @@ class MonthDetailScreem extends StatelessWidget {
        
     }
 
+    _showPeopleConfigModal(BuildContext context, Months mes){
+      showDialog(
+        context: context, 
+        builder: (BuildContext context){
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), // Bordas arredondadas
+            ),
+            elevation: 16,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: FormPeopleConfigModal(mes: mes,),
+            ),
+          );
+        } 
+      );
+    }
+
     Months mes = ModalRoute.of(context)!.settings.arguments as Months;
       // Inspecionar o conteúdo da lista de peoples
      print('Lista de peoples: ${mes.peoples}');
@@ -27,7 +46,7 @@ class MonthDetailScreem extends StatelessWidget {
         title: Text(
           mes.name, 
           style: TextStyle(
-            color: Colors.white,
+            color:  Colors.white,
             fontWeight: FontWeight.bold
           ),
         ),
@@ -36,7 +55,7 @@ class MonthDetailScreem extends StatelessWidget {
         foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: (){}, 
+            onPressed: () => _showPeopleConfigModal(context, mes), 
             icon: const Icon(
               Icons.more_vert, 
               color: Colors.white,
@@ -68,7 +87,7 @@ class MonthDetailScreem extends StatelessWidget {
                 height: 600,
                 child:  ListView.builder(
                   itemCount: mes.peoples.length,
-                  itemBuilder: (ctx, i) => CardPeople(index: i, mesId: mes.id ,people: mes.peoples[i])
+                  itemBuilder: (ctx, i) => CardPeople(mesId: mes.id ,people: mes.peoples[i])
                 ),
               ),
             ],

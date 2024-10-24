@@ -44,6 +44,7 @@ class _MonthFormState extends State<MonthForm> {
     try {
       await Provider.of<MonthItem>(context, listen: false).savePeople(_formData, widget.mesId);
       Provider.of<MonthItem>(context, listen: false).loadMonths();
+      Navigator.of(context).pop();
     } catch (error) {
       await showDialog(
           context: context, 
