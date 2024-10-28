@@ -47,7 +47,15 @@ class _CalendarState extends State<Calendar> {
    
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Calendar', 
+          style: TextStyle(
+            color: Colors.white, 
+            fontWeight: FontWeight.normal,
+            fontFamily: 'Karantina',
+            fontSize: 40
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 63, 79, 219),
         automaticallyImplyLeading: false,
         centerTitle: true,

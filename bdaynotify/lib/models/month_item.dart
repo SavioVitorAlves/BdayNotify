@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+
 import 'dart:math';
 
 import 'package:bdaynotify/exceptions/http_exceptions.dart';
@@ -26,6 +26,7 @@ class MonthItem with ChangeNotifier{
   }
 
   get body => null;
+
 
   Future<void> loadMonths() async{
     final response = await http.get(Uri.parse('${DbRoutes.MESES_BASE_URL}.json'));
@@ -60,6 +61,7 @@ class MonthItem with ChangeNotifier{
           );
         }).toList();
       }
+      peoplesList.sort((a, b) => a.date.compareTo(b.date));
       itens.add(
         Months(
           id: monthId, 

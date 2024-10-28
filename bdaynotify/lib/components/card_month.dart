@@ -1,11 +1,21 @@
 import 'package:bdaynotify/models/month_item.dart';
 import 'package:bdaynotify/models/months.dart';
+import 'package:bdaynotify/models/peoples.dart';
 import 'package:flutter/material.dart';
 
 
 class CardMonth extends StatelessWidget {
   const CardMonth({ required this.month, super.key});
   final Months month;
+  
+  int peopleCount(List<People> peoples){
+      int total = 0;
+      peoples.forEach((person) {
+        if (person.isVerify == true) total++;
+      });
+      return total; 
+  }
+  
   @override
   Widget build(BuildContext context) {
     
@@ -27,23 +37,25 @@ class CardMonth extends StatelessWidget {
               month.name.toString(), 
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 30
+                fontSize: 30,
+                fontFamily: 'KoHo',
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
         ),
         //Spacer(),
         Positioned(
-          left: 370,
-          top: 43,
+          left: 280,
+          top: 37,
           child: Container(
             transformAlignment: Alignment.bottomLeft,
             width: 25,
             //height: 20,
-            child: const Row(
+            child: Row(
               children: [
-                Text('6',style: TextStyle(color: Colors.white, fontSize: 10),),
-                Text('/15',style: TextStyle(color: Colors.white, fontSize: 10),)
+                Text(peopleCount(month.peoples).toString(),style: const TextStyle(color: Colors.white, fontSize: 13, fontFamily: 'KoHo',),),
+                Text('/${month.peoples.length}',style: const TextStyle(color: Colors.white, fontSize: 13, fontFamily: 'KoHo',),)
               ],
             ),
           ),

@@ -49,40 +49,47 @@ class _FormPeopleUpdateState extends State<FormPeopleUpdate> {
     }
     
   }
+  /*_showDatePicker(BuildContext context){
+    final _quantDays = 100 * 365;
+    showDatePicker(
+      context: context, 
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: _quantDays)), 
+      lastDate: DateTime.now()
+    ).then((pickedDate){
+      if (pickedDate == null) {
+        return;
+      }
+      onDateChanged(pickedDate);
+    });
+  }*/
   
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Card(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: 10 + MediaQuery.of(context).viewInsets.bottom
-          ),
-          child: Column(
-            children: [
-              TextField(
-                controller: _nomeControler,
-                decoration: InputDecoration(
-                  label: Text('Nome')
-                ),
+        
+        child: Column(
+          children: [
+            TextField(
+              controller: _nomeControler,
+              decoration: InputDecoration(
+                label: Text('Nome')
               ),
-              Datepicker(
-                onDateChanged: (newDate){
-                  setState(() {
-                    _selectedDate = newDate;
-                  });
-                }, 
-                selectedDate: _selectedDate
-              ),
-              FilledButton(
-                onPressed: _submitForm, 
-                child: Text('Atualizar Pessoa')
-              ),
-            ],
-          ),
+            ),
+            Datepicker(
+              onDateChanged: (newDate){
+                setState(() {
+                  _selectedDate = newDate;
+                });
+              }, 
+              selectedDate: _selectedDate
+            ),
+            FilledButton(
+              onPressed: _submitForm, 
+              child: Text('Atualizar Pessoa')
+            ),
+          ],
         ),
       ),
     );

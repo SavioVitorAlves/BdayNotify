@@ -26,10 +26,7 @@ class DismissibleItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(15), // Bordas arredondadas
             ),
             elevation: 16,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: FormPeopleUpdate(mesId: mesId, people: people,),
-            ),
+            child: FormPeopleUpdate(mesId: mesId, people: people,),
           );
         },
       );
@@ -111,8 +108,9 @@ class DismissibleItem extends StatelessWidget {
               child:  Text(DateFormat('dd').format(people.date),
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Karantina'
                 ),
               ),
             ),
@@ -123,15 +121,21 @@ class DismissibleItem extends StatelessWidget {
               children: [
                 Text(people.name, 
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
+                    fontSize: 25,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontFamily: 'Karantina',
+                    height: 0.9
                   ),
                 ),
                 Text(DateFormat('dd/MM/y').format(people.date), 
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 13
+                    fontSize: 19,
+                    fontFamily: 'Karantina',
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w300,
+                    height: 0.9
                   ),
                 ),
               ],

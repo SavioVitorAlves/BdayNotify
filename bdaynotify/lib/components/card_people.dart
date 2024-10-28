@@ -53,8 +53,9 @@ class CardPeople extends StatelessWidget {
               child:  Text(DateFormat('dd').format(people.date),
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+                fontSize: 40,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Karantina',
               ),
               ),
             ),
@@ -65,15 +66,20 @@ class CardPeople extends StatelessWidget {
               children: [
                 Text(people.name, 
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
+                    fontSize: 25,
+                    height: 0.9,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontFamily: 'Karantina',
                   ),
                 ),
                 Text(DateFormat('dd/MM/y').format(people.date), 
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 13
+                    fontSize: 19,
+                    height: 0.9,
+                    fontFamily: 'Karantina',
+                    fontWeight: FontWeight.w300
                   ),
                 ),
               ],

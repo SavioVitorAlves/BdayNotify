@@ -47,7 +47,9 @@ class MonthDetailScreem extends StatelessWidget {
           mes.name, 
           style: TextStyle(
             color:  Colors.white,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.normal,
+            fontFamily: 'Karantina',
+            fontSize: 40
           ),
         ),
         centerTitle: true,

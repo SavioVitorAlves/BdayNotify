@@ -11,14 +11,16 @@ class FormPeopleConfigModal extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Column(
+      
       mainAxisSize: MainAxisSize.min, // O conteúdo não ocupa mais espaço do que o necessário
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Edição',
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold
+            fontSize: 30,
+            fontWeight: FontWeight.w400,
+            fontFamily:  'Karantina',
           ),
         ),
         SizedBox(height: 10,),
