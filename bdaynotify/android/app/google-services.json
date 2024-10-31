@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "322996187724",
+    "firebase_url": "https://bdaynotify-9fc5e-default-rtdb.firebaseio.com",
+    "project_id": "bdaynotify-9fc5e",
+    "storage_bucket": "bdaynotify-9fc5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322996187724:android:10ce22016a8f631e3bbae9",
+        "android_client_info": {
+          "package_name": "com.sandev.bdaynotify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqIsolTvqSiQDnRNHyJnhGIcoW2yBKHl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
