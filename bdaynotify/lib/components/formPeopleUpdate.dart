@@ -1,7 +1,8 @@
-import 'package:bdaynotify/components/datePicker.dart';
+
 import 'package:bdaynotify/models/month_item.dart';
 import 'package:bdaynotify/models/peoples.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class FormPeopleUpdate extends StatefulWidget {
@@ -49,7 +50,7 @@ class _FormPeopleUpdateState extends State<FormPeopleUpdate> {
     }
     
   }
-  /*_showDatePicker(BuildContext context){
+  _showDatePicker(BuildContext context){
     final _quantDays = 100 * 365;
     showDatePicker(
       context: context, 
@@ -60,9 +61,12 @@ class _FormPeopleUpdateState extends State<FormPeopleUpdate> {
       if (pickedDate == null) {
         return;
       }
-      onDateChanged(pickedDate);
+      print('Data Atualizada: $pickedDate');
+      setState(() {
+        _selectedDate = pickedDate;
+      });
     });
-  }*/
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -77,13 +81,17 @@ class _FormPeopleUpdateState extends State<FormPeopleUpdate> {
                 label: Text('Nome')
               ),
             ),
-            Datepicker(
-              onDateChanged: (newDate){
-                setState(() {
-                  _selectedDate = newDate;
-                });
-              }, 
-              selectedDate: _selectedDate
+            Column(
+              children: [
+                Text(
+                  _selectedDate == null ? 'Nenhuma data selecionada'
+                  : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'
+                ),
+                TextButton(
+                  onPressed: () => _showDatePicker(context), 
+                  child: Text('Selecionar Data')
+                )
+              ]
             ),
             FilledButton(
               onPressed: _submitForm, 
