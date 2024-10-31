@@ -3,11 +3,15 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:bdaynotify/exceptions/http_exceptions.dart';
+import 'package:bdaynotify/main.dart';
 import 'package:bdaynotify/models/months.dart';
 import 'package:bdaynotify/models/peoples.dart';
 import 'package:bdaynotify/utils/db_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class MonthItem with ChangeNotifier{
   List<Months> _meses = [];
@@ -136,7 +140,7 @@ class MonthItem with ChangeNotifier{
       _meses[monthIndex].peoples.add(people);
       notifyListeners(); // Notifica os ouvintes sobre a mudança
     }
-    
+    scheduleBirthdayNotification(people.date, people.name);
     //notifyListeners();
   }
 
@@ -202,4 +206,31 @@ class MonthItem with ChangeNotifier{
       throw error;
     }
   }
+  //flutter local notifications
+  Future<void> scheduleBirthdayNotification(DateTime birthday, String name) async {
+    final now = DateTime.now();
+    final notificationDate = DateTime(birthday.year, birthday.month, birthday.day - 1);
+
+    if (notificationDate.isAfter(now)) {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        0, // ID da notificação
+        'Aniversário chegando!',
+        'Amanhã é o aniversário de $name!',
+        tz.TZDateTime.from(notificationDate, tz.local),
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'birthday_channel', // ID do canal
+            'Notificações de Aniversário', // Nome do canal
+            channelDescription:'Este canal é usado para lembretes de aniversários.', // Descrição do canal
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
+    }
+  }
+
+
 }

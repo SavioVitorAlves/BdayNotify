@@ -1,12 +1,13 @@
-import 'dart:convert';
 
 import 'package:bdaynotify/components/buttons_bar.dart';
+import 'package:bdaynotify/components/charts/chart_aniversariantes.dart';
 import 'package:bdaynotify/models/month_item.dart';
 import 'package:bdaynotify/models/months.dart';
 import 'package:bdaynotify/models/peoples.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -96,6 +97,47 @@ class _DashboardState extends State<Dashboard> {
     String currentMonthName = monthNames[now.month - 1];
     return currentMonthName;
   }
+  
+  final Map<int, int> aniversariosPorMes = {
+    0: 5,  // Janeiro
+    1: 8,  // Fevereiro
+    2: 10, // Março
+    3: 13, // Abril
+    4: 15, // Maio
+    5: 9, // Junho
+    6: 3, // Julho
+    7: 20, // Agosto
+    8: 23, // Setembro
+    9: 17, // Outubro
+    10: 10, // Novembro
+    11: 6, // Dezembro
+  };
+
+  Map<int, int> geraListaDeAniversariosPorMes(List<Months> meses){
+    Map<int, int> aniversarios = {};
+    // Lista dos nomes dos meses em ordem
+    final List<String> nomesDosMeses = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    for (var i = 0; i < 11; i++) {
+      //String nomeDoMes = nomesDosMeses[i];
+
+      // Encontra o mês correspondente na lista de meses
+      /*final mesData = meses.firstWhere(
+        (mes) => mes.name == nomeDoMes,
+        orElse: () => Months(id: meses[i].id ,name: nomeDoMes, peoples: []),
+      );*/
+      
+
+      // Insere o índice do mês e o número de pessoas
+      aniversarios[i] = meses[i].peoples.length;
+    }
+    return aniversarios;
+  }
+  
+
 
   @override
   void initState() {
@@ -285,115 +327,118 @@ class _DashboardState extends State<Dashboard> {
                     topRight: Radius.circular(30)
                   )
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Consumer<MonthItem>(
+                  builder: (ctx, month, child){
+                    return Column(
                       children: [
-                        Container(
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF5A6AF1),
-                                Color(0xFF2D378D)
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          padding: EdgeInsets.all(5),
-                          child: Center(
-                            child: Text(
-                              MesAtal(),
-                              style: const TextStyle(
-                                fontSize: 45,
-                                height: .8,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontFamily: 'KoHo'
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF5A6AF1),
-                                Color(0xFF2D378D)
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Consumer<MonthItem>(
-                            builder: (ctx, month, child){
-                              return Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      PessoasVerify(month.meses).toString(),
-                                      style: const TextStyle(
-                                        fontSize: 90,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                        fontFamily: 'Karantina',
-                                        height: 0.9
-                                      ),
-                                    ),
-                                    Text(
-                                      '/${BuscarPessoasDeMes(month.meses).toString()}',
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white,
-                                        
-                                        fontFamily: 'Karantina',
-                                      ),
-                                      
-                                    )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF5A6AF1),
+                                    Color(0xFF2D378D)
                                   ],
-                                )
-                              );
-                            }
-                            
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFF5A6AF1),
-                            Color(0xFF2D378D)
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter
+                                ),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              padding: EdgeInsets.all(5),
+                              child: Center(
+                                child: Text(
+                                  MesAtal(),
+                                  style: const TextStyle(
+                                    fontSize: 45,
+                                    height: .8,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontFamily: 'KoHo'
+                                  ),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF5A6AF1),
+                                    Color(0xFF2D378D)
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter
+                                ),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          PessoasVerify(month.meses).toString(),
+                                          style: const TextStyle(
+                                            fontSize: 90,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white,
+                                            fontFamily: 'Karantina',
+                                            height: 0.9
+                                          ),
+                                        ),
+                                        Text(
+                                          '/${BuscarPessoasDeMes(month.meses).toString()}',
+                                          style: const TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.white,
+                                            
+                                            fontFamily: 'Karantina',
+                                          ),
+                                          
+                                        )
+                                      ],
+                                    )
+                                  ),
+                                
+                            )
                           ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter
                         ),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                    ),
-                    const Spacer(),
-                    ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
-                    const SizedBox(height: 45,),
-                  ],
+                        const SizedBox(height: 10,),
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF5A6AF1),
+                                Color(0xFF2D378D)
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter
+                            ),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: ChartAnivesariantes(aniversariosPorMes: geraListaDeAniversariosPorMes(month.meses)),
+                        ),
+                        const Spacer(),
+                        ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
+                        const SizedBox(height: 45,),
+                      ],
+                    );
+                  }
                 ),
               )
             ],
           ),
+          
         )
       ),
     );
