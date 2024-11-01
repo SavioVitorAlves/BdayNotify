@@ -13,15 +13,23 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(
-      BarChartData(
-        barTouchData: barTouchData,
-        titlesData: titlesData,
-        borderData: borderData,
-        barGroups: barGroups,
-        gridData: const FlGridData(show: false),
-        alignment: BarChartAlignment.spaceAround,
-        maxY: 20,
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 0,
+        left: 10,
+        right: 10,
+      ),
+      child: BarChart(
+        BarChartData(
+          barTouchData: barTouchData,
+          titlesData: titlesData,
+          borderData: borderData,
+          barGroups: barGroups,
+          gridData: const FlGridData(show: false),
+          alignment: BarChartAlignment.spaceAround,
+          maxY: 20,
+        ),
       ),
     );
   }
@@ -52,7 +60,7 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
       color: Colors.blue,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w400,
       fontSize: 14,
     );
     String text;
@@ -67,6 +75,9 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
         text = 'Jovens';
         break;
       case 3:
+        text = 'Adolecentes';
+        break;
+      case 4:
         text = 'Crianças';
         break;
       default:
@@ -114,77 +125,21 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
       );
 
   List<BarChartGroupData> get barGroups => [
-        BarChartGroupData(
-          x: 0,
-          barRods: [
-            BarChartRodData(
-              toY: 8,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-              toY: 14,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-              toY: 15,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-              toY: 13,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-              toY: 10,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-              toY: 16,
-              gradient: _barsGradient,
-            )
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
+    ...widget.data.entries.map((bar) => Bars(bar.key, bar.value.toDouble())),      
+  ];
+  
+  BarChartGroupData Bars(int index, double quantidade){
+    return BarChartGroupData(
+      x: index,
+      barRods: [
+        BarChartRodData(
+          toY: quantidade,
+          gradient: _barsGradient,
+        )
+      ],
+      showingTooltipIndicators: [0],
+    );
+  }
 }
 
 
