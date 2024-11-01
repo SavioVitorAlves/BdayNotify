@@ -47,7 +47,7 @@ class _DashboardState extends State<Dashboard> {
     "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
     ];
   
-    String currentMonthName = monthNames[now.month - 1];
+    String currentMonthName = monthNames[now.month - 1];  
     
     int total = 0;
     
@@ -89,6 +89,7 @@ class _DashboardState extends State<Dashboard> {
     }
     return null;
   }
+
   String MesAtal(){
     DateTime now = DateTime.now();
     List<String> monthNames = [
@@ -123,7 +124,7 @@ class _DashboardState extends State<Dashboard> {
       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
 
-    for (var i = 0; i < 11; i++) {
+    for (var i = 0; i < 12; i++) {
       //String nomeDoMes = nomesDosMeses[i];
 
       // Encontra o mês correspondente na lista de meses
@@ -281,7 +282,6 @@ class _DashboardState extends State<Dashboard> {
                     ]
                   ),
               child: Consumer<MonthItem>(
-                    
                     builder: (ctx, month, child){
                       People? proximaPessoa = proximaPeople(month.meses);
                       return proximaPessoa != null 
@@ -346,9 +346,10 @@ class _DashboardState extends State<Dashboard> {
                             ),
                         ),
                         onTap: (){
+                          DateTime now = DateTime.now();
                           Navigator.of(context).pushNamed(
                               RoutesApp.MONTH_DETAIL,
-                              arguments: month,
+                              arguments: month.meses[now.month - 1],
                           );
                         }
                       )
