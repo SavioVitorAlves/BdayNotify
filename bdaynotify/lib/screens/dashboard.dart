@@ -1,9 +1,11 @@
 
 import 'package:bdaynotify/components/buttons_bar.dart';
+import 'package:bdaynotify/components/charts/chart_analytics.dart';
 import 'package:bdaynotify/components/charts/chart_aniversariantes.dart';
 import 'package:bdaynotify/models/month_item.dart';
 import 'package:bdaynotify/models/months.dart';
 import 'package:bdaynotify/models/peoples.dart';
+import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -134,9 +136,54 @@ class _DashboardState extends State<Dashboard> {
       // Insere o índice do mês e o número de pessoas
       aniversarios[i] = meses[i].peoples.length;
     }
+    print(aniversarios);
     return aniversarios;
   }
   
+  Map<int, int> pegarIdadedDasPessoas(List<Months> meses){
+    Map<int, int> analytics = {};
+    int total = 0;
+    int adultos = 0;
+    int jovens = 0;
+    int adolecentes = 0;
+    int criancas = 0;
+    DateTime now = DateTime.now();
+    //navegar por dentro de cada mes
+    for(var i = 0; i < 11; i++ ){
+      List<People> pessoas = meses[i].peoples;
+      //acessar a lista de pessoas de cada mes
+      for (var i = 0; i < pessoas.length; i++) {
+        //conta a quantidade de pessoas
+        total++;
+        //verifacar a data de aniversario de cada pessoa
+        int idade = now.year - pessoas[i].date.year;
+        //verificar se é adulto
+        if (idade >=22){
+          adultos++;
+        }
+        //verifica se é jovem
+        else if(idade < 22 && idade >=16){
+          jovens++;
+        }
+        //verifica se é adolecente
+        else if(idade < 16 && idade >= 11){
+          adolecentes++;
+        }
+        //caso nao seje nem uma das opçoes acima 
+        else{
+          criancas++;
+        }
+      }
+    }
+    // adicionar a lista os totais
+    analytics[0] = total;
+    analytics[1] = adultos;
+    analytics[2] = jovens;
+    analytics[3] = adolecentes;
+    analytics[4] = criancas;
+    
+    return analytics;
+  }
 
 
   @override
@@ -238,64 +285,72 @@ class _DashboardState extends State<Dashboard> {
                     builder: (ctx, month, child){
                       People? proximaPessoa = proximaPeople(month.meses);
                       return proximaPessoa != null 
-                      ? Card(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: Color(0x40B7BBC8),
-                              width: 1
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          
-                          color: const Color(0x60081946),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 70,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                  color:  Color(0xFF5A6AF1),
-                                  borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                )),
-                                child:  Text(DateFormat('dd').format(proximaPessoa.date),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40,
-                                  fontFamily: 'Karantina'
-                                ),
-                                ),
+                      ? GestureDetector(
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Color(0x40B7BBC8),
+                                width: 1
                               ),
-                              const SizedBox(width: 10,),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(proximaPessoa.name, 
-                                    style: const TextStyle(
-                                      fontSize: 25,
-                                      height: 0.9,
-                                      color: Colors.white,
-                                      fontFamily: 'Karantina',
-                                      letterSpacing: 2
-                                    ),
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            
+                            color: const Color(0x60081946),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 70,
+                                  alignment: Alignment.center,
+                                  decoration: const BoxDecoration(
+                                    color:  Color(0xFF5A6AF1),
+                                    borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  )),
+                                  child:  Text(DateFormat('dd').format(proximaPessoa.date),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontFamily: 'Karantina'
                                   ),
-                                  Text(DateFormat('dd/MM/y').format(proximaPessoa.date), 
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      height: 0.9,
-                                      letterSpacing: 1,
-                                      fontFamily: 'Karantina',
-                                      fontWeight: FontWeight.w300,
-                                    ),
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
+                                ),
+                                const SizedBox(width: 10,),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(proximaPessoa.name, 
+                                      style: const TextStyle(
+                                        fontSize: 25,
+                                        height: 0.9,
+                                        color: Colors.white,
+                                        fontFamily: 'Karantina',
+                                        letterSpacing: 2
+                                      ),
+                                    ),
+                                    Text(DateFormat('dd/MM/y').format(proximaPessoa.date), 
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 19,
+                                        height: 0.9,
+                                        letterSpacing: 1,
+                                        fontFamily: 'Karantina',
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                        ),
+                        onTap: (){
+                          Navigator.of(context).pushNamed(
+                              RoutesApp.MONTH_DETAIL,
+                              arguments: month,
+                          );
+                        }
                       )
                       : const Center(
                           child: Text(
@@ -335,8 +390,8 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              height: 120,
-                              width: 120,
+                              height: 140,
+                              width: 140,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
@@ -353,7 +408,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: Text(
                                   MesAtal(),
                                   style: const TextStyle(
-                                    fontSize: 45,
+                                    fontSize: 50,
                                     height: .8,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -364,8 +419,8 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             Container(
-                              height: 120,
-                              width: 120,
+                              height: 140,
+                              width: 140,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
@@ -426,7 +481,18 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             borderRadius: BorderRadius.circular(10)
                           ),
-                          child: ChartAnivesariantes(aniversariosPorMes: geraListaDeAniversariosPorMes(month.meses)),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: SizedBox.expand(
+                                child: PageView(
+                                  children: [
+                                    ChartAnivesariantes(aniversariosPorMes: geraListaDeAniversariosPorMes(month.meses)),
+                                    ChartAnalytics(data: pegarIdadedDasPessoas(month.meses),),
+                                  ],
+                                )
+                              ),
+                            )),
                         ),
                         const Spacer(),
                         ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
