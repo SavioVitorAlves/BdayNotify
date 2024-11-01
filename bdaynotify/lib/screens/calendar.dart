@@ -85,7 +85,7 @@ class _CalendarState extends State<Calendar> {
               Consumer<MonthItem>(
                 builder:(ctx, months, child) {
                   return Container(
-                    height: 600,
+                    height: MediaQuery.of(context).size.height * .7,
                     child:  ListView.builder(
                       itemCount: months.monthsCount,
                       itemBuilder: (ctx, i){
