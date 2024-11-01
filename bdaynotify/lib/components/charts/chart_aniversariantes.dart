@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ChartAnivesariantes extends StatefulWidget {
+  
   const ChartAnivesariantes({required this.aniversariosPorMes, super.key});
   final Map<int, int> aniversariosPorMes;
 
@@ -23,18 +24,15 @@ class _ChartAnivesariantesState extends State<ChartAnivesariantes> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.90,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 10,
-              left: 0,
-              top: 10,
-              bottom: 10,
-            ),
-            child: LineChart(
-               mainData(),
-            ),
+        Padding(
+          padding: const EdgeInsets.only(
+            right: 10,
+            left: 10,
+            top: 10,
+            bottom: 10,
+          ),
+          child: LineChart(
+             mainData(),
           ),
         ),
       ],
@@ -54,7 +52,7 @@ class _ChartAnivesariantesState extends State<ChartAnivesariantes> {
       child: Text(monthName, style: style),
     );
   }
-
+  
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
@@ -80,8 +78,8 @@ class _ChartAnivesariantesState extends State<ChartAnivesariantes> {
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+        topTitles:  const AxisTitles(
+          sideTitles: SideTitles(showTitles: false,),
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
@@ -91,6 +89,25 @@ class _ChartAnivesariantesState extends State<ChartAnivesariantes> {
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
+        leftTitles: AxisTitles( // Adicionando os títulos à esquerda
+        sideTitles: SideTitles(
+          showTitles: false,
+          reservedSize: 20,
+          getTitlesWidget: (value, meta) {
+            return SideTitleWidget(
+              axisSide: meta.axisSide,
+              child: Text(
+                value.toInt().toString(), // Exemplo, altere conforme necessário
+                style: const TextStyle(
+                  color: Colors.white, // Define a cor do texto como branca
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
       ),
       borderData: FlBorderData(
         show: true,
