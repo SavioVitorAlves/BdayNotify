@@ -23,9 +23,9 @@ O "BdayNotify" é um aplicativo para registrar e lembrar aniversários de contat
 ---
 
 ## Introdução
-O "Gestor de Aniversários" ajuda os usuários a organizar aniversários de amigos e familiares. As funcionalidades incluem:
+O "BdayNotify" ajuda os usuários a organizar aniversários de amigos e familiares. As funcionalidades incluem:
 - Adicionar, editar e excluir aniversários.
-- Visualização em listas ou calendário.
+- Visualização em listas.
 - Notificações de lembrete para aniversários próximos.
   
 O projeto é feito usando Flutter e pode ser facilmente adaptado para dispositivos Android e iOS.
@@ -38,17 +38,13 @@ O projeto é feito usando Flutter e pode ser facilmente adaptado para dispositiv
 3. **Android Studio** ou **Xcode** para testes em dispositivos.
 4. Emulador ou dispositivo físico para testes.
 
-### Variáveis de Ambiente
-Certifique-se de definir as variáveis de ambiente necessárias:
-- `API_KEY`: Chave para acessar a API de autenticação.
-- `BASE_URL`: URL base para o backend do aplicativo.
 
 ## Instalação
 
 1. Clone o repositório:
     ```bash
     git clone https://github.com/seu-usuario/gestor-de-aniversarios.git
-    cd gestor-de-aniversarios
+    cd bdaynotify
     ```
 
 2. Instale as dependências:
