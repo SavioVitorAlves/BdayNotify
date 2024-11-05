@@ -14,11 +14,10 @@ O "BdayNotify" é um aplicativo para registrar e lembrar aniversários de contat
 5. [Funcionalidades](#funcionalidades)
 6. [Padrões de Código](#padrões-de-código)
 7. [Dependências](#dependências)
-8. [Testes](#testes)
-9. [Deployment](#deployment)
-10. [Manutenção e Atualizações](#manutenção-e-atualizações)
-11. [Contribuição](#contribuição)
-12. [Licença](#licença)
+8. [Deployment](#deployment)
+9. [Manutenção e Atualizações](#manutenção-e-atualizações)
+10. [Contribuição](#contribuição)
+11. [Licença](#licença)
 
 ---
 
@@ -43,7 +42,7 @@ O projeto é feito usando Flutter e pode ser facilmente adaptado para dispositiv
 
 1. Clone o repositório:
     ```bash
-    git clone https://github.com/seu-usuario/gestor-de-aniversarios.git
+    git clone https://github.com/SavioVitorAlves/BdayNotify.git
     cd bdaynotify
     ```
 
@@ -60,15 +59,15 @@ O projeto é feito usando Flutter e pode ser facilmente adaptado para dispositiv
 ## Estrutura do Projeto
 
 ```plaintext
-gestor-de-aniversarios/
+bdaynotify/
 ├── lib/
 │   ├── main.dart                 # Arquivo principal do aplicativo
 │   ├── screens/                  # Contém todas as telas do aplicativo
 │   ├── models/                   # Modelos de dados do aplicativo
-│   ├── services/                 # Serviços de backend e APIs
+│   ├── services/                 # Serviço de notificação
 │   ├── utils/                    # Utilitários e helpers
-│   └── widgets/                  # Widgets reutilizáveis
-├── assets/                       # Assets do projeto (imagens, ícones, etc.)
+│   └── components/               # Widgets reutilizáveis
+├── assets/                       # Assets do projeto (imagens, ícones, fontes, etc.)
 ├── pubspec.yaml                  # Arquivo de dependências do Flutter
 └── README.md                     # Documentação do projeto
 ```
@@ -76,12 +75,12 @@ gestor-de-aniversarios/
 ## Funcionalidades
 
 ### 1. Tela Principal
-- Lista todos os aniversários.
-- Opções para filtrar por mês e visualizar detalhes.
+- Apresenta um resumo dos dados armazenados pelo usuario.
+- Contem graficos com dados analytics.
+- Mostra o proximo aniversariantes.
 
 ### 2. Adicionar Aniversário
-- Permite adicionar nome, data e foto.
-- Validação para evitar datas duplicadas.
+- Permite adicionar nome e data.
 
 ### 3. Editar Aniversário
 - Permite a edição de dados de aniversário já cadastrado.
@@ -90,11 +89,14 @@ gestor-de-aniversarios/
 ### 4. Notificações
 - Notifica o usuário com lembretes automáticos.
 
+### 5. Marcar como verificada quando receber o lembrete 
+- Opção para marca como verificada, assim na tela principal aparecera a proxima pessoa a fazer aniversario.
+
 ## Padrões de Código
 O projeto segue os padrões da [Guia de Estilo do Flutter](https://dart.dev/guides/language/effective-dart) com as seguintes práticas adicionais:
 - **Naming Convention**: CamelCase para variáveis e PascalCase para classes.
 - **Arquitetura**: Utilizamos o padrão MVVM (Model-View-ViewModel) para organizar o código.
-- **Widgets Reutilizáveis**: Widgets comuns são armazenados em `widgets/` para reutilização e simplificação do código.
+- **Widgets Reutilizáveis**: Widgets comuns são armazenados em `componentes/` para reutilização e simplificação do código.
 
 ## Dependências
 
@@ -114,32 +116,7 @@ dev_dependencies:
     sdk: flutter
 ```
 
-## Testes
 
-### Tipos de Testes
-- **Unitários**: Testam funções e classes isoladamente.
-- **Widgets**: Validam a interface gráfica dos componentes.
-- **Integração**: Testam fluxos completos.
-
-### Executando Testes
-Execute todos os testes do projeto com o comando:
-```bash
-flutter test
-```
-
-### Exemplo de Teste Unitário
-
-```dart
-import 'package:flutter_test/flutter_test.dart';
-import 'package:gestor_de_aniversarios/models/aniversario.dart';
-
-void main() {
-  test('Deve calcular o próximo aniversário corretamente', () {
-    final aniversario = Aniversario(nome: "Maria", data: DateTime(2020, 5, 14));
-    expect(aniversario.proximoAniversario(), DateTime(DateTime.now().year, 5, 14));
-  });
-}
-```
 
 ## Deployment
 
@@ -154,12 +131,12 @@ void main() {
 ## Manutenção e Atualizações
 
 ### Bugs Conhecidos
-- Delay ao carregar aniversários em listas longas.
-- A funcionalidade de busca não diferencia maiúsculas/minúsculas.
+- Quando modificar uma pessoa ou deletar tera que sair da pagina de modal e volta para a lista de pessoas do mes que ja estarão com as alterações.
+- Quando uma pesso for marcada com verificada tem um delay na pagina principal.
 
 ### Próximas Atualizações
-- Integração com rede social para importação de contatos.
-- Melhorias na interface de notificações.
+- Crição de tela de cadastro para suportar mais de um ususario.
+- Adição da função de sexo da pessoa assim podendo criar novos graficos com essas informações.
 
 ## Contribuição
 
