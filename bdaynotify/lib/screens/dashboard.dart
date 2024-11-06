@@ -90,6 +90,11 @@ class _DashboardState extends State<Dashboard> {
     return null;
   }
 
+  String capitalize(String month) {
+  if (month.isEmpty) return month; // Retorna vazio se a string estiver vazia
+  return month[0].toUpperCase() + month.substring(1).toLowerCase(); // Capitaliza a primeira letra e coloca o resto em minúsculas
+}
+
   String MesAtal(){
     DateTime now = DateTime.now();
     List<String> monthNames = [
@@ -98,7 +103,7 @@ class _DashboardState extends State<Dashboard> {
     ];
   
     String currentMonthName = monthNames[now.month - 1];
-    return currentMonthName;
+    return capitalize(currentMonthName);
   }
   
   final Map<int, int> aniversariosPorMes = {
@@ -150,7 +155,7 @@ class _DashboardState extends State<Dashboard> {
     int criancas = 0;
     DateTime now = DateTime.now();
     //navegar por dentro de cada mes
-    for(var i = 0; i < 11; i++ ){
+    for(var i = 0; i < 12; i++ ){
       List<People> pessoas = meses[i].peoples;
       //acessar a lista de pessoas de cada mes
       for (var i = 0; i < pessoas.length; i++) {
@@ -186,13 +191,18 @@ class _DashboardState extends State<Dashboard> {
     return analytics;
   }
 
-
+   bool _isLoading = true; // Controle de carregamento
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<MonthItem>(context, listen: false).loadMonths();
+      Provider.of<MonthItem>(context, listen: false).loadMonths().then((_){
+
+        setState(() {
+          _isLoading = false;
+        });
+      });
     });
   }
   
@@ -218,181 +228,263 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: const Color(0xFF5A6AF1),
         centerTitle: true,
       ),
-      body: Container(
-        
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF5A6AF1),
-              Color(0xFF273087)
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.center
-          ),
-        ),
-        child:  Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 30,),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 45,
-                  right: 45
-                ),
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Proximo aniversariante:', 
-                      style: TextStyle(
-                        
-                        fontSize: 13, 
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: 'KoHo'
+      body: Consumer<MonthItem>(
+        builder: (context, month, child){
+          // Verifica se os dados do mês estão carregados
+          if (month.meses == null || month.meses.isEmpty) {
+            // Se os dados não estão carregados, exibe o CircularProgressIndicator
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          // Se os dados estão carregados, prossegue para buscar a próxima pessoa
+          People? proximaPessoa = proximaPeople(month.meses);
+  
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF5A6AF1),
+                  Color(0xFF273087)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.center
+              ),
+            ),
+            child:  Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 30,),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 45,
+                      right: 45
+                    ),
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Proximo aniversariante:', 
+                          style: TextStyle(
+                            
+                            fontSize: 13, 
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'KoHo'
+                          )
+                        ),
+                        Text(
+                          'Hoje: ${DateFormat('dd/MM/y').format(DateTime.now())}', 
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'KoHo'
+                          )
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      right: 40
+                    ),
+                    child: Container(
+                      height: 70,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            spreadRadius: 0,
+                            blurRadius: 15,
+                            offset: const Offset(0, 10)
+                          )
+                        ]
+                      ),
+                      child: proximaPessoa != null 
+                          ? GestureDetector(
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Color(0x40B7BBC8),
+                                    width: 1
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                
+                                color: const Color(0x60081946),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 70,
+                                      alignment: Alignment.center,
+                                      decoration: const BoxDecoration(
+                                        color:  Color(0xFF5A6AF1),
+                                        borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      )),
+                                      child:  Text(DateFormat('dd').format(proximaPessoa.date),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 40,
+                                        fontFamily: 'Karantina'
+                                      ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10,),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(proximaPessoa.name, 
+                                          style: const TextStyle(
+                                            fontSize: 25,
+                                            height: 0.9,
+                                            color: Colors.white,
+                                            fontFamily: 'Karantina',
+                                            letterSpacing: 2
+                                          ),
+                                        ),
+                                        Text(DateFormat('dd/MM/y').format(proximaPessoa.date), 
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 19,
+                                            height: 0.9,
+                                            letterSpacing: 1,
+                                            fontFamily: 'Karantina',
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                            ),
+                            onTap: (){
+                              DateTime now = DateTime.now();
+                              Navigator.of(context).pushNamed(
+                                  RoutesApp.MONTH_DETAIL,
+                                  arguments: month.meses[now.month - 1],
+                              );
+                            }
+                          )
+                          : const Center(
+                              child: Text(
+                                'Todas as Pessoas do mes Atual já foram Verificadas!',
+                                style: TextStyle(color: Colors.white, fontFamily: 'Karantina'),
+                              )
+                            ),
+                      
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      right: 40,
+                      top: 60
+                    ),
+                    height: 600,
+                    decoration: const BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          Color(0xFF041F65),
+                          Color(0xFF081946)
+                        ]
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)
                       )
                     ),
-                    Text(
-                      'Hoje: ${DateFormat('dd/MM/y').format(DateTime.now())}', 
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'KoHo'
-                      )
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 40,
-                  right: 40
-                ),
-                child: Container(
-                  height: 70,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        spreadRadius: 0,
-                        blurRadius: 15,
-                        offset: const Offset(0, 10)
-                      )
-                    ]
-                  ),
-              child: Consumer<MonthItem>(
-                    builder: (ctx, month, child){
-                      People? proximaPessoa = proximaPeople(month.meses);
-                      return proximaPessoa != null 
-                      ? GestureDetector(
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Color(0x40B7BBC8),
-                                width: 1
-                              ),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            
-                            color: const Color(0x60081946),
-                            child: Row(
+                    child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 50,
-                                  height: 70,
-                                  alignment: Alignment.center,
-                                  decoration: const BoxDecoration(
-                                    color:  Color(0xFF5A6AF1),
-                                    borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  )),
-                                  child:  Text(DateFormat('dd').format(proximaPessoa.date),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 40,
-                                    fontFamily: 'Karantina'
+                                  height: 140,
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFF5A6AF1),
+                                        Color(0xFF2D378D)
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)
                                   ),
+                                  padding: EdgeInsets.all(5),
+                                  child: Center(
+                                    child: Text(
+                                      MesAtal(),
+                                      style: const TextStyle(
+                                        fontSize: 50,
+                                        height: .8,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontFamily: 'KoHo'
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(width: 10,),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(proximaPessoa.name, 
-                                      style: const TextStyle(
-                                        fontSize: 25,
-                                        height: 0.9,
-                                        color: Colors.white,
-                                        fontFamily: 'Karantina',
-                                        letterSpacing: 2
-                                      ),
+                                Container(
+                                  height: 140,
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFF5A6AF1),
+                                        Color(0xFF2D378D)
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter
                                     ),
-                                    Text(DateFormat('dd/MM/y').format(proximaPessoa.date), 
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 19,
-                                        height: 0.9,
-                                        letterSpacing: 1,
-                                        fontFamily: 'Karantina',
-                                        fontWeight: FontWeight.w300,
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              PessoasVerify(month.meses).toString(),
+                                              style: const TextStyle(
+                                                fontSize: 90,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white,
+                                                fontFamily: 'Karantina',
+                                                height: 0.9
+                                              ),
+                                            ),
+                                            Text(
+                                              '/${BuscarPessoasDeMes(month.meses).toString()}',
+                                              style: const TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.white,
+                                                
+                                                fontFamily: 'Karantina',
+                                              ),
+                                              
+                                            )
+                                          ],
+                                        )
                                       ),
-                                    ),
-                                  ],
+                                    
                                 )
                               ],
                             ),
-                        ),
-                        onTap: (){
-                          DateTime now = DateTime.now();
-                          Navigator.of(context).pushNamed(
-                              RoutesApp.MONTH_DETAIL,
-                              arguments: month.meses[now.month - 1],
-                          );
-                        }
-                      )
-                      : const Center(
-                          child: Text(
-                            'Todas as Pessoas do mes Atual já foram Verificadas!',
-                            style: TextStyle(color: Colors.white, fontFamily: 'Karantina'),
-                          )
-                        );
-                    },
-                  ),
-                ),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.only(
-                  left: 40,
-                  right: 40,
-                  top: 60
-                ),
-                height: 600,
-                decoration: const BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      Color(0xFF041F65),
-                      Color(0xFF081946)
-                    ]
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)
-                  )
-                ),
-                child: Consumer<MonthItem>(
-                  builder: (ctx, month, child){
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                            const SizedBox(height: 10,),
                             Container(
-                              height: 140,
-                              width: 140,
+                              height: 200,
+                              width: double.infinity,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
@@ -404,109 +496,33 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 borderRadius: BorderRadius.circular(10)
                               ),
-                              padding: EdgeInsets.all(5),
                               child: Center(
-                                child: Text(
-                                  MesAtal(),
-                                  style: const TextStyle(
-                                    fontSize: 50,
-                                    height: .8,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontFamily: 'KoHo'
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 140,
-                              width: 140,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFF5A6AF1),
-                                    Color(0xFF2D378D)
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter
-                                ),
-                                borderRadius: BorderRadius.circular(10)
-                              ),
-                              
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5,),
+                                  child: SizedBox.expand(
+                                    child: PageView(
                                       children: [
-                                        Text(
-                                          PessoasVerify(month.meses).toString(),
-                                          style: const TextStyle(
-                                            fontSize: 90,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white,
-                                            fontFamily: 'Karantina',
-                                            height: 0.9
-                                          ),
-                                        ),
-                                        Text(
-                                          '/${BuscarPessoasDeMes(month.meses).toString()}',
-                                          style: const TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white,
-                                            
-                                            fontFamily: 'Karantina',
-                                          ),
-                                          
-                                        )
+                                        ChartAnivesariantes(aniversariosPorMes: geraListaDeAniversariosPorMes(month.meses)),
+                                        ChartAnalytics(data: pegarIdadedDasPessoas(month.meses),),
                                       ],
                                     )
                                   ),
-                                
-                            )
+                                )),
+                            ),
+                            const Spacer(),
+                            ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
+                            const SizedBox(height: 45,),
                           ],
                         ),
-                        const SizedBox(height: 10,),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFF5A6AF1),
-                                Color(0xFF2D378D)
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: SizedBox.expand(
-                                child: PageView(
-                                  children: [
-                                    ChartAnivesariantes(aniversariosPorMes: geraListaDeAniversariosPorMes(month.meses)),
-                                    ChartAnalytics(data: pegarIdadedDasPessoas(month.meses),),
-                                  ],
-                                )
-                              ),
-                            )),
-                        ),
-                        const Spacer(),
-                        ButtonsBar(_cores[0], _cores[1], _cores[2], _cores[3]),
-                        const SizedBox(height: 45,),
-                      ],
-                    );
-                  }
-                ),
-              )
-            ],
-          ),
-          
-        )
+                    
+                  )
+                ],
+              ),
+              
+            )
+        );
+        },
+        
       ),
     );
   }

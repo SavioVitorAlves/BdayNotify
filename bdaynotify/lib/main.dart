@@ -3,6 +3,7 @@ import 'package:bdaynotify/screens/calendar.dart';
 import 'package:bdaynotify/screens/dashboard.dart';
 import 'package:bdaynotify/screens/month_detail_screem.dart';
 import 'package:bdaynotify/screens/month_form.dart';
+import 'package:bdaynotify/screens/splash_screen.dart';
 import 'package:bdaynotify/services/custom_firebase_messaging.dart';
 import 'package:bdaynotify/utils/routes_app.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routes: {
+          RoutesApp.SPLASH_SCREEN: (ctx) => SplashScreen(),
           RoutesApp.HOME: (ctx) => Dashboard(),
           RoutesApp.CALENDAR: (ctx) => Calendar(),
           RoutesApp.MONTH_DETAIL: (ctx) => MonthDetailScreem(),
