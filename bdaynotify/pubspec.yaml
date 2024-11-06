@@ -40,11 +40,10 @@ dependencies:
   flutter_local_notifications: ^17.2.4
   timezone: ^0.9.4
   permission_handler: ^11.2.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   fl_chart: ^0.69.0
+  connectivity_plus: ^6.1.0
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +58,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/imgs/logoapp.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -69,9 +71,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - lib/assets/imgs/logoapp.png
+    - lib/assets/imgs/logosplashscreen.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
