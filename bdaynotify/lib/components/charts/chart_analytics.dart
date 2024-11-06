@@ -15,7 +15,7 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 10,
+        top: 15,
         bottom: 0,
         left: 10,
         right: 10,
@@ -39,7 +39,7 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (group) => Colors.transparent,
           tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
+          tooltipMargin: 1,
           getTooltipItem: (
             BarChartGroupData group,
             int groupIndex,
@@ -59,9 +59,9 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
-      color: Colors.blue,
+      color: Colors.white,
       fontWeight: FontWeight.w400,
-      fontSize: 14,
+      fontSize: 10,
     );
     String text;
     switch (value.toInt()) {
