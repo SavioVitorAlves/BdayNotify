@@ -106,10 +106,20 @@ Abaixo estão as principais dependências usadas:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^6.0.0       # Gerenciamento de estado
-  firebase_core: ^2.3.0  # Integração com Firebase
-  flutter_local_notifications: ^9.5.0  # Notificações locais
-  intl: ^0.18.0          # Formatação de datas
+  provider: ^5.0.0
+  intl: ^0.17.0
+  http: ^0.13.3
+  cloud_firestore: ^5.4.4
+  firebase_auth: ^5.3.1
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+  flutter_local_notifications: ^17.2.4
+  timezone: ^0.9.4
+  permission_handler: ^11.2.0
+  cupertino_icons: ^1.0.8
+  fl_chart: ^0.69.0
+  connectivity_plus: ^6.1.0
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
@@ -141,16 +151,11 @@ dev_dependencies:
 ## Contribuição
 
 ### Regras de Contribuição
-1. Crie uma nova branch para cada feature ou bug fix.
-2. Abra uma Pull Request com as alterações detalhadas.
-3. Certifique-se de que todas as alterações seguem o padrão de código.
+1. Faca um fork do repositorio.
+2. Todos os dados adicionados no bando de dados delete apos as alterações e testes.
+3. Abra uma Pull Request com as alterações detalhadas.
+4. Certifique-se de que todas as alterações seguem o padrão de código.
 
-### Rodando um Branch de Contribuição
-```bash
-git checkout -b minha-feature
-# Faça as alterações e commit
-git push origin minha-feature
-```
 
 ## Licença
 Este projeto está licenciado sob a MIT License - consulte o arquivo `LICENSE` para mais detalhes.
