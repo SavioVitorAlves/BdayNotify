@@ -147,14 +147,16 @@ dev_dependencies:
 ### Próximas Atualizações
 - Crição de tela de cadastro para suportar mais de um ususario.
 - Adição da função de sexo da pessoa assim podendo criar novos graficos com essas informações.
+- Roda função de notificação local
 
 ## Contribuição
 
 ### Regras de Contribuição
 1. Faca um fork do repositorio.
 2. Todos os dados adicionados no bando de dados delete apos as alterações e testes.
-3. Abra uma Pull Request com as alterações detalhadas.
-4. Certifique-se de que todas as alterações seguem o padrão de código.
+3. O banco de dados adicionado é o de testes caso queira usar o app crie um novo banco de dados no firebase database
+4. Abra uma Pull Request com as alterações detalhadas.
+5. Certifique-se de que todas as alterações seguem o padrão de código.
 
 
 ## Licença
