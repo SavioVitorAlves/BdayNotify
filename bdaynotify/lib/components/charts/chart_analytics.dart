@@ -28,7 +28,7 @@ class _ChartAnalyticsState extends State<ChartAnalytics> {
           barGroups: barGroups,
           gridData: const FlGridData(show: false),
           alignment: BarChartAlignment.spaceAround,
-          maxY: 20,
+          maxY: widget.data[0]!.toDouble() + 5,
         ),
       ),
     );
